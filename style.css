@@ -1,0 +1,27 @@
+body{
+    font-family: "Roboto", sans-serif;
+    background-color: gainsboro;
+}
+
+.form-box{
+  color: white;
+  margin-right: 10px;
+  padding: 20px;
+}
+
+.form-box input{
+    font-size: 200%;
+}
+
+.btn{
+    padding: 10px;
+    margin-left: 20px;
+}
+
+.btn-edit{
+    padding: 10px;
+}
+
+.btn-delete{
+    padding: 10px;
+}
