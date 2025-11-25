@@ -1,17 +1,18 @@
 const text = document.getElementById("myInput");
 const btn = document.querySelector(".btn");
 const addpara = document.getElementById("outputParagraph");
+const searchInput = document.getElementById("searchInput");
 
 let notes = JSON.parse(localStorage.getItem("notes")) || [];
 
-//Load Notes on Page Load
+
 window.addEventListener("DOMContentLoaded", loadNotes);
 
 function loadNotes() {
   notes.forEach((note) => createNoteElement(note));
 }
 
-// Add New Note 
+
 btn.addEventListener("click", function () {
   const taskText = text.value.trim();
 
@@ -24,7 +25,7 @@ btn.addEventListener("click", function () {
   }
 });
 
-// Create Note Element 
+
 function createNoteElement(taskText) {
   const taskContainer = document.createElement("div");
   taskContainer.classList.add("task-item");
@@ -32,31 +33,26 @@ function createNoteElement(taskText) {
   const newParagraph = document.createElement("p");
   newParagraph.textContent = taskText;
 
-  // Edit Button
   const editButton = document.createElement("button");
   editButton.textContent = "Edit";
   editButton.classList.add("btn-edit");
 
-  // Delete Button
   const deleteButton = document.createElement("button");
   deleteButton.textContent = "Delete";
   deleteButton.classList.add("btn-delete");
 
-  // Add to DOM
   taskContainer.appendChild(newParagraph);
   taskContainer.appendChild(editButton);
   taskContainer.appendChild(deleteButton);
   addpara.appendChild(taskContainer);
 
-  // Edit
+  
   editButton.addEventListener("click", function () {
     const newText = prompt("Edit your note:", newParagraph.textContent);
     if (newText !== null) {
-      // Update UI
-      newParagraph.textContent = newText;
-
-      // Update localStorage
       const index = notes.indexOf(taskText);
+
+      newParagraph.textContent = newText;
       if (index > -1) {
         notes[index] = newText;
         localStorage.setItem("notes", JSON.stringify(notes));
@@ -64,12 +60,23 @@ function createNoteElement(taskText) {
     }
   });
 
-  // Delete
+
   deleteButton.addEventListener("click", function () {
     taskContainer.remove();
-
-    // Remove from array + localStorage
     notes = notes.filter((note) => note !== newParagraph.textContent);
     localStorage.setItem("notes", JSON.stringify(notes));
   });
 }
+
+
+searchInput.addEventListener("input", function () {
+  const value = searchInput.value.toLowerCase();
+
+  const tasks = document.querySelectorAll(".task-item");
+
+  tasks.forEach(task => {
+    const text = task.querySelector("p").textContent.toLowerCase();
+
+    task.style.display = text.includes(value) ? "block" : "none";
+  });
+});
